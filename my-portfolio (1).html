@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Portfolio Builder | Neo-Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap');
+        
+        body { font-family: 'Space Grotesk', sans-serif; background-color: #050505; color: white; }
+        
+        [contenteditable]:hover { outline: 2px dashed #3b82f6; cursor: pointer; }
+        [contenteditable]:focus { outline: none; border-bottom: 2px solid #3b82f6; background: rgba(59, 130, 246, 0.05); }
+        
+        /* Modern Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+        /* Glassmorphism Sidebar */
+        #admin-panel {
+            backdrop-filter: blur(16px) saturate(180%);
+            background: rgba(17, 17, 17, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .selected-element { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); border: 2px solid #3b82f6 !important; }
+        
+        .skill-pill {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .skill-pill:hover {
+            transform: translateY(-5px);
+            background: white;
+            color: black;
+        }
+
+        .neon-glow {
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .codely-watermark {
+            position: fixed; bottom: 20px; left: 30px;
+            font-size: 9px; letter-spacing: 3px;
+            color: rgba(255,255,255,0.2); z-index: 40;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-2{inset:0.5rem}.right-0{right:0px}.top-0{top:0px}.z-40{z-index:40}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-10{margin-bottom:2.5rem}.mb-12{margin-bottom:3rem}.mb-16{margin-bottom:4rem}.mb-2{margin-bottom:0.5rem}.mb-20{margin-bottom:5rem}.mb-3{margin-bottom:0.75rem}.mb-8{margin-bottom:2rem}.mr-2{margin-right:0.5rem}.mt-2{margin-top:0.5rem}.mt-20{margin-top:5rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-48{height:12rem}.h-8{height:2rem}.h-full{height:100%}.h-screen{height:100vh}.min-h-screen{min-height:100vh}.w-48{width:12rem}.w-8{width:2rem}.w-80{width:20rem}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-4xl{max-width:56rem}.flex-1{flex:1 1 0%}.flex-grow{flex-grow:1}@keyframes spin{to{transform:rotate(360deg)}}.animate-\[spin_20s_linear_infinite\]{animation:spin 20s linear infinite}.cursor-default{cursor:default}.cursor-pointer{cursor:pointer}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-12{gap:3rem}.gap-24{gap:6rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.space-x-12 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(3rem * var(--tw-space-x-reverse));margin-left:calc(3rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-8 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(2rem * var(--tw-space-x-reverse));margin-left:calc(2rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.overflow-x-hidden{overflow-x:hidden}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-md{border-radius:0.375rem}.border{border-width:1px}.border-2{border-width:2px}.border-l-4{border-left-width:4px}.border-t{border-top-width:1px}.border-dashed{border-style:dashed}.border-none{border-style:none}.border-blue-500{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.border-blue-500\/10{border-color:rgb(59 130 246 / 0.1)}.border-blue-500\/50{border-color:rgb(59 130 246 / 0.5)}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.border-white\/20{border-color:rgb(255 255 255 / 0.2)}.border-white\/5{border-color:rgb(255 255 255 / 0.05)}.bg-\[\#080808\]{--tw-bg-opacity:1;background-color:rgb(8 8 8 / var(--tw-bg-opacity, 1))}.bg-black\/20{background-color:rgb(0 0 0 / 0.2)}.bg-black\/40{background-color:rgb(0 0 0 / 0.4)}.bg-black\/50{background-color:rgb(0 0 0 / 0.5)}.bg-blue-500\/5{background-color:rgb(59 130 246 / 0.05)}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-red-500\/10{background-color:rgb(239 68 68 / 0.1)}.bg-transparent{background-color:transparent}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/5{background-color:rgb(255 255 255 / 0.05)}.bg-zinc-900{--tw-bg-opacity:1;background-color:rgb(24 24 27 / var(--tw-bg-opacity, 1))}.bg-zinc-900\/50{background-color:rgb(24 24 27 / 0.5)}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-blue-500{--tw-gradient-from:#3b82f6 var(--tw-gradient-from-position);--tw-gradient-to:rgb(59 130 246 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-purple-500{--tw-gradient-to:#a855f7 var(--tw-gradient-to-position)}.bg-clip-text{-webkit-background-clip:text;background-clip:text}.object-cover{object-fit:cover}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-10{padding-left:2.5rem;padding-right:2.5rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-32{padding-top:8rem;padding-bottom:8rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pl-3{padding-left:0.75rem}.pt-20{padding-top:5rem}.pt-6{padding-top:1.5rem}.text-center{text-align:center}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[9px\]{font-size:9px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-light{font-weight:300}.font-medium{font-weight:500}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-none{line-height:1}.leading-relaxed{line-height:1.625}.tracking-\[0\.2em\]{letter-spacing:0.2em}.tracking-\[0\.3em\]{letter-spacing:0.3em}.tracking-\[0\.4em\]{letter-spacing:0.4em}.tracking-\[0\.5em\]{letter-spacing:0.5em}.tracking-tighter{letter-spacing:-0.05em}.tracking-widest{letter-spacing:0.1em}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-blue-400{--tw-text-opacity:1;color:rgb(96 165 250 / var(--tw-text-opacity, 1))}.text-blue-500{--tw-text-opacity:1;color:rgb(59 130 246 / var(--tw-text-opacity, 1))}.text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-red-500{--tw-text-opacity:1;color:rgb(239 68 68 / var(--tw-text-opacity, 1))}.text-transparent{color:transparent}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.underline-offset-8{text-underline-offset:8px}.grayscale{--tw-grayscale:grayscale(100%);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-500{transition-duration:500ms}.duration-700{transition-duration:700ms}.hover\:scale-105:hover{--tw-scale-x:1.05;--tw-scale-y:1.05;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:border-white\/30:hover{border-color:rgb(255 255 255 / 0.3)}.hover\:bg-blue-500:hover{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity, 1))}.hover\:bg-white\/10:hover{background-color:rgb(255 255 255 / 0.1)}.hover\:text-blue-500:hover{--tw-text-opacity:1;color:rgb(59 130 246 / var(--tw-text-opacity, 1))}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:grayscale-0:hover{--tw-grayscale:grayscale(0);filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.focus\:border-blue-500:focus{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}@media (min-width: 768px){.md\:block{display:block}.md\:flex{display:flex}.md\:h-64{height:16rem}.md\:w-64{width:16rem}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:items-end{align-items:flex-end}.md\:px-20{padding-left:5rem;padding-right:5rem}.md\:pr-80{padding-right:20rem}.md\:text-7xl{font-size:4.5rem;line-height:1}.md\:text-8xl{font-size:6rem;line-height:1}.md\:text-xl{font-size:1.25rem;line-height:1.75rem}}@media (min-width: 1024px){.lg\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}</style></head>
+<body class="overflow-x-hidden">
+
+    <nav class="fixed top-0 w-full z-40 flex justify-between items-center px-8 py-6 backdrop-blur-md bg-black/20">
+        <div class="text-xl font-bold tracking-widest border-l-4 border-blue-500 pl-3" contenteditable="false">Codely.Fun</div>
+        <div class="hidden md:flex items-center space-x-8 text-[11px] uppercase tracking-[0.3em] font-medium">
+            <a href="#hero" class="hover:text-blue-500 transition">Index</a>
+            <a href="#my-projects" class="hover:text-blue-500 transition">Work</a>
+            <a href="#about" class="hover:text-blue-500 transition">Story</a>
+            <a href="#skills" class="hover:text-blue-500 transition">Tools</a>
+        </div>
+        <button class="bg-white text-black px-6 py-2 text-[10px] font-bold uppercase tracking-widest rounded-full">Contact</button>
+    </nav>
+
+    <div id="admin-panel" class="fixed top-0 right-0 z-50 h-screen w-80 p-6 overflow-y-auto hidden md:block" style="display: none;">
+        <div class="flex flex-col h-full">
+            <div class="mb-8">
+                <h3 class="text-xs font-black uppercase tracking-[0.2em] text-blue-500 mb-1">Codely Editor v1</h3>
+                <p class="text-[10px] text-gray-500 uppercase">Version 2.0 Neo-UI</p>
+            </div>
+            
+            <div class="space-y-6 flex-grow">
+                <div class="group">
+                    <label class="text-[9px] uppercase text-gray-400 font-bold mb-2 block">Profile Visual</label>
+                    <input type="text" id="profile-img-link" placeholder="Image URL..." class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-[10px] text-white focus:outline-none focus:border-blue-500 mb-2">
+                    <button onclick="updateProfileImageByLink()" class="w-full bg-blue-600 hover:bg-blue-500 text-[10px] py-3 rounded-lg font-bold uppercase transition">Update Media</button>
+                </div>
+
+                <div class="p-4 bg-blue-500/5 rounded-2xl border border-blue-500/10">
+                    <h4 class="text-[9px] font-bold text-blue-400 uppercase mb-3"><i class="fa-solid fa-cloud mr-2"></i>Firebase Cloud</h4>
+                    <div class="space-y-2">
+                        <input type="text" id="fb-apiKey" placeholder="API Key" class="w-full bg-black/40 border border-white/5 rounded-md p-2 text-[10px]">
+                        <input type="text" id="fb-projectId" placeholder="Project ID" class="w-full bg-black/40 border border-white/5 rounded-md p-2 text-[10px]">
+                        <input type="text" id="fb-appId" placeholder="App ID" class="w-full bg-black/40 border border-white/5 rounded-md p-2 text-[10px]">
+                        <button onclick="initFirebase()" class="w-full bg-white text-black text-[10px] py-2 rounded font-bold uppercase mt-2">Sync Database</button>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">
+                    <h4 class="text-[9px] font-bold text-gray-300 uppercase mb-3"><i class="fa-solid fa-plus mr-2"></i>New Project</h4>
+                    <input type="text" id="p-title" placeholder="Title" class="w-full bg-black/40 border border-white/5 rounded-md p-2 text-[10px] mb-2">
+                    <input type="text" id="p-img" placeholder="Cover URL" class="w-full bg-black/40 border border-white/5 rounded-md p-2 text-[10px] mb-2">
+                    <button onclick="uploadProject()" class="w-full border border-white/20 hover:bg-white/10 text-[10px] py-2 rounded font-bold uppercase transition">Push Live</button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="addSkill()" class="bg-white/5 border border-white/10 hover:border-white/30 text-[9px] py-3 rounded-lg font-bold uppercase">+ Skill</button>
+                    <button onclick="addNewButton()" class="bg-white/5 border border-white/10 hover:border-white/30 text-[9px] py-3 rounded-lg font-bold uppercase">+ Action</button>
+                </div>
+
+                <div>
+                    <label class="text-[9px] uppercase text-gray-500 font-bold mb-2 block">Global Accent</label>
+                    <input type="color" id="accentColor" class="w-full h-10 bg-transparent cursor-pointer rounded-lg overflow-hidden border-none" value="#3b82f6">
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-white/10 space-y-3">
+                <input type="text" id="logicInput" placeholder="Link URL or Script..." class="w-full bg-black/50 border border-white/10 rounded-lg p-3 text-[10px]">
+                <div class="flex gap-3">
+                    <button onclick="deleteElement()" class="flex-1 bg-red-500/10 text-red-500 text-[9px] py-3 rounded-lg font-bold uppercase">Delete</button>
+                    <button onclick="exportCode()" class="flex-1 bg-blue-600 text-[9px] py-3 rounded-lg font-bold uppercase">Export Site</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="md:pr-80">
+        <section id="hero" class="min-h-screen flex flex-col items-center justify-center px-6 pt-20">
+            <div class="relative mb-12">
+                <div class="w-48 h-48 md:w-64 md:h-64 rounded-full p-2 border-2 border-dashed border-blue-500/50 animate-[spin_20s_linear_infinite]"></div>
+                <div class="absolute inset-2 overflow-hidden rounded-full bg-zinc-900">
+                    <img id="profileImg" src="https://i.ibb.co/n84TFst7/photo-2025-12-29-11-53-43.jpg" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 cursor-pointer" onclick="triggerImgUpload()">
+                </div>
+                <input type="file" id="imgUpload" class="hidden" accept="image/*">
+            </div>
+
+            <div class="text-center max-w-4xl">
+                <h1 class="text-5xl md:text-8xl font-bold tracking-tighter leading-none mb-8">
+                    <span contenteditable="false" class="block selected-element">Shubham's Template</span>
+                    <span contenteditable="false" class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">DEVELOPER.</span>
+                </h1>
+                <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light" contenteditable="false">
+                    Crafting digital experiences at the intersection of design and technology.
+                </p>
+                <div id="hero-actions" class="flex flex-wrap justify-center gap-4">
+                    <button class="action-item bg-white text-black px-8 py-4 rounded-full font-bold uppercase text-[11px] tracking-widest hover:scale-105 transition" contenteditable="false">View My Work</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="my-projects" class="py-32 px-10 md:px-20 bg-[#080808]">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-4">
+                <div>
+                    <span class="text-blue-500 text-xs font-bold uppercase tracking-widest mb-2 block">Portfolio</span>
+                    <h2 class="text-5xl font-bold tracking-tighter" contenteditable="false">SELECTED WORKS</h2>
+                </div>
+                <p class="text-gray-500 text-xs uppercase tracking-widest bg-white/5 px-4 py-2 rounded-full border border-white/10">Firebase Status: Live</p>
+            </div>
+            
+            <div id="project-grid" class="grid md:grid-cols-2 gap-12">
+                <div class="text-gray-600 italic text-sm">Initialize Firebase to populate projects...</div>
+            </div>
+        </section>
+
+        <section id="about" class="py-32 px-10 md:px-20">
+            <div class="grid lg:grid-cols-2 gap-24 items-center">
+                <div class="space-y-8">
+                    <h2 class="text-4xl font-bold flex items-center gap-4">
+                        <span class="w-8 h-8 rounded-full bg-blue-600 inline-block"></span>
+                        <span contenteditable="false">Background</span>
+                    </h2>
+                    <div class="text-gray-400 text-xl leading-relaxed font-light space-y-6" contenteditable="false">
+                        <p>With a focus on aesthetics and performance, I help brands build digital foundations that scale. Currently exploring the future of web interaction and immersive UI.</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="p-8 bg-zinc-900/50 border border-white/5 rounded-3xl">
+                        <div class="text-5xl font-bold text-white mb-2" contenteditable="false">8+</div>
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500">Years Experience</div>
+                    </div>
+                    <div class="p-8 bg-zinc-900/50 border border-white/5 rounded-3xl">
+                        <div class="text-5xl font-bold text-white mb-2" contenteditable="false">24</div>
+                        <div class="text-[10px] uppercase tracking-widest text-gray-500">Global Clients</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-32 px-10 md:px-20 bg-[#080808]">
+            <h2 class="text-center text-xs font-black uppercase tracking-[0.4em] text-gray-500 mb-16" contenteditable="false">Core Expertise</h2>
+            <div id="skills-container" class="flex flex-wrap justify-center gap-6">
+                <div class="skill-pill bg-zinc-900 px-10 py-5 rounded-2xl text-xs font-bold uppercase tracking-widest transition cursor-default" contenteditable="false">System Design</div>
+                <div class="skill-pill bg-zinc-900 px-10 py-5 rounded-2xl text-xs font-bold uppercase tracking-widest transition cursor-default" contenteditable="false">React / Next.js</div>
+            </div>
+        </section>
+
+        <footer id="contact" class="py-32 text-center">
+            <p class="text-[10px] text-gray-500 uppercase tracking-[0.5em] mb-8">Get In Touch</p>
+            <h2 class="text-4xl md:text-7xl font-bold hover:text-blue-500 transition-all duration-500 cursor-pointer underline underline-offset-8" contenteditable="false">hello@vision.io</h2>
+            <div class="mt-20 flex justify-center space-x-12 text-gray-600 text-xs uppercase tracking-widest">
+                <a href="#" class="hover:text-white transition">LinkedIn</a>
+                <a href="#" class="hover:text-white transition">Twitter</a>
+                <a href="#" class="hover:text-white transition">Dribbble</a>
+            </div>
+        </footer>
+    </main>
+
+    <div class="codely-watermark">ENGINEERED BY CODELY.FUN</div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        let db;
+
+        window.initFirebase = async function() {
+            const config = {
+                apiKey: document.getElementById('fb-apiKey').value,
+                projectId: document.getElementById('fb-projectId').value,
+                appId: document.getElementById('fb-appId').value,
+                authDomain: `${document.getElementById('fb-projectId').value}.firebaseapp.com`
+            };
+
+            try {
+                const app = initializeApp(config);
+                db = getFirestore(app);
+                localStorage.setItem('fb_config', JSON.stringify(config));
+                loadProjects();
+                alert("Cloud Sync Successful!");
+            } catch (e) { alert("Sync Error: " + e.message); }
+        };
+
+        window.loadProjects = async function() {
+            if(!db) return;
+            const q = query(collection(db, "projects"), orderBy("createdAt", "desc"));
+            const querySnapshot = await getDocs(q);
+            const grid = document.getElementById('project-grid');
+            grid.innerHTML = '';
+            querySnapshot.forEach((doc) => {
+                const p = doc.data();
+                const pLink = p.projectLink || "#";
+                grid.innerHTML += `
+                    <a href="${pLink}" target="_blank" class="group block">
+                        <div class="aspect-video bg-zinc-900 rounded-[2rem] overflow-hidden mb-8 border border-white/5">
+                            <img src="${p.imageUrl}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold text-2xl group-hover:text-blue-500 transition">${p.title}</h4>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-gray-500 group-hover:text-blue-500"></i>
+                        </div>
+                    </a>`;
+            });
+        };
+
+        window.uploadProject = async function() {
+            if(!db) return alert("Connect Firebase first!");
+            const title = document.getElementById('p-title').value;
+            const imageUrl = document.getElementById('p-img').value;
+            const projectLink = "#"; 
+            if(!title || !imageUrl) return alert("Fill all fields");
+            
+            await addDoc(collection(db, "projects"), { 
+                title, imageUrl, projectLink, createdAt: new Date() 
+            });
+            alert("Project Pushed!");
+            document.getElementById('p-title').value = '';
+            document.getElementById('p-img').value = '';
+            loadProjects();
+        };
+
+        const saved = localStorage.getItem('fb_config');
+        if(saved) {
+            const c = JSON.parse(saved);
+            document.getElementById('fb-apiKey').value = c.apiKey;
+            document.getElementById('fb-projectId').value = c.projectId;
+            document.getElementById('fb-appId').value = c.appId;
+        }
+    </script>
+
+    <script>
+        let selectedElement = null;
+
+        function updateProfileImageByLink() {
+            const link = document.getElementById('profile-img-link').value;
+            if (link) { document.getElementById('profileImg').src = link; saveState(); }
+        }
+
+        document.getElementById('accentColor').addEventListener('input', (e) => {
+            const color = e.target.value;
+            document.documentElement.style.setProperty('--accent-glow', color);
+            document.querySelectorAll('.text-blue-500, .bg-blue-500, .border-blue-500').forEach(el => {
+                if(el.classList.contains('text-blue-500')) el.style.color = color;
+                if(el.classList.contains('bg-blue-500')) el.style.backgroundColor = color;
+                if(el.classList.contains('border-blue-500')) el.style.borderColor = color;
+            });
+            saveState();
+        });
+
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('[contenteditable="true"], .action-item, .skill-pill');
+            if (target && !target.closest('#admin-panel')) {
+                if (selectedElement) selectedElement.classList.remove('selected-element');
+                selectedElement = target;
+                selectedElement.classList.add('selected-element');
+                document.getElementById('logicInput').value = selectedElement.getAttribute('data-logic') || '';
+            }
+        });
+
+        document.getElementById('logicInput').addEventListener('input', (e) => {
+            if (selectedElement) {
+                const val = e.target.value;
+                selectedElement.setAttribute('data-logic', val);
+                selectedElement.onclick = () => {
+                    if (val.startsWith('http')) window.open(val, '_blank');
+                    else try { eval(val); } catch(err) {}
+                };
+                saveState();
+            }
+        });
+
+        function addSkill() {
+            const div = document.createElement('div');
+            div.className = "skill-pill bg-zinc-900 px-10 py-5 rounded-2xl text-xs font-bold uppercase tracking-widest transition cursor-default";
+            div.contentEditable = "true"; div.innerText = "New Skill";
+            document.getElementById('skills-container').appendChild(div);
+            saveState();
+        }
+
+        function addNewButton() {
+            const btn = document.createElement('button');
+            btn.className = "action-item border border-white/20 text-white px-8 py-4 rounded-full font-bold uppercase text-[10px] tracking-widest hover:bg-white hover:text-black transition";
+            btn.contentEditable = "true"; btn.innerText = "New Button";
+            document.getElementById('hero-actions').appendChild(btn);
+            saveState();
+        }
+
+        function deleteElement() {
+            if (selectedElement && confirm('Delete this element?')) {
+                selectedElement.remove();
+                selectedElement = null;
+                saveState();
+            }
+        }
+
+        function triggerImgUpload() { document.getElementById('imgUpload').click(); }
+        document.getElementById('imgUpload').onchange = function(e) {
+            const reader = new FileReader();
+            reader.onload = () => { document.getElementById('profileImg').src = reader.result; saveState(); };
+            reader.readAsDataURL(e.target.files[0]);
+        };
+
+        function saveState() {
+            const data = { body: document.body.innerHTML, accent: document.getElementById('accentColor').value };
+            localStorage.setItem('portfolio_v3_data', JSON.stringify(data));
+        }
+
+        function exportCode() {
+            const panel = document.getElementById('admin-panel');
+            const editables = document.querySelectorAll('[contenteditable="true"]');
+            editables.forEach(el => el.setAttribute('contenteditable', 'false'));
+            panel.style.display = 'none'; 
+            const html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            panel.style.display = 'block';
+            editables.forEach(el => el.setAttribute('contenteditable', 'true'));
+            const blob = new Blob([html], {type: 'text/html'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'my-portfolio.html';
+            a.click();
+        }
+
+        document.addEventListener('input', (e) => { if(e.target.hasAttribute('contenteditable')) saveState(); });
+    </script>
+
+</body></html>
